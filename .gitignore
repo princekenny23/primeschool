@@ -8,5 +8,6 @@ backend/**/__pycache__/
 .env
 backend/.env
 !backend/.env.example
+frontend/.env.local
 frontend/tsconfig.tsbuildinfo
 ~$*

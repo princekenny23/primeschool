@@ -19,6 +19,7 @@ Copy-Item .env.example .env
 
 | Variable | Purpose |
 | --- | --- |
+| `DATABASE_URL` | PostgreSQL connection URL, preferred for Render deployments |
 | `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT` | PostgreSQL connection |
 | `SECRET_KEY` | Django signing key — use a long random value in production |
 | `DEBUG` | `True` locally, `False` in production |
@@ -27,6 +28,10 @@ Copy-Item .env.example .env
 The frontend uses `PRIMESCHOOL_API_URL` to proxy `/api/*` to Django. It defaults to `http://127.0.0.1:8000` for local development; set it to the deployed Django origin in the frontend's production environment. The previous `PRIMEX_API_URL` variable remains supported for existing deployments.
 
 `.env` is git-ignored; never commit real credentials.
+
+When `DATABASE_URL` is set, it takes precedence over the individual `DB_*`
+variables. For Render, use the complete internal PostgreSQL URL supplied by
+Render, including the full hostname and port when provided.
 
 ## Run locally
 
