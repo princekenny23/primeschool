@@ -38,6 +38,11 @@ export default function SubjectsPage() {
   }
 
   async function createAssignment() {
+    if (!assignment.subject || !assignment.teacher || !assignment.classroom) {
+      setError("Select a subject, teacher, and class before assigning.");
+      return;
+    }
+
     setBusy(true);
     setError("");
     try {
@@ -159,7 +164,7 @@ export default function SubjectsPage() {
           {error && <Notice>{error}</Notice>}
           <FormGrid>
             <Field label="Subject">
-              <select value={assignment.subject} onChange={(event) => setAssignment({ ...assignment, subject: event.target.value })}>
+              <select required value={assignment.subject} onChange={(event) => setAssignment({ ...assignment, subject: event.target.value })}>
                 <option value="">Select subject</option>
                 {subjects.data.map((subject) => (
                   <option key={subject.id} value={subject.id}>
@@ -169,7 +174,7 @@ export default function SubjectsPage() {
               </select>
             </Field>
             <Field label="Teacher">
-              <select value={assignment.teacher} onChange={(event) => setAssignment({ ...assignment, teacher: event.target.value })}>
+              <select required value={assignment.teacher} onChange={(event) => setAssignment({ ...assignment, teacher: event.target.value })}>
                 <option value="">Select teacher</option>
                 {teachers.data.map((teacher) => (
                   <option key={teacher.id} value={teacher.id}>
@@ -179,7 +184,7 @@ export default function SubjectsPage() {
               </select>
             </Field>
             <Field label="Class">
-              <select value={assignment.classroom} onChange={(event) => setAssignment({ ...assignment, classroom: event.target.value })}>
+              <select required value={assignment.classroom} onChange={(event) => setAssignment({ ...assignment, classroom: event.target.value })}>
                 <option value="">Select class</option>
                 {classes.data.map((room) => (
                   <option key={room.id} value={room.id}>

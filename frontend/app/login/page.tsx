@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Eye, EyeOff, LockKeyhole } from "lucide-react";
+import { ArrowUpRight, Eye, EyeOff, LockKeyhole, Sparkles } from "lucide-react";
 import { ApiError } from "@/lib/api";
 import { homeFor, useAuth } from "@/lib/auth";
 
@@ -38,37 +38,50 @@ export default function LoginPage() {
   return (
     <main className="login-screen">
       <section className="login-art">
-        <span className="brand-mark">P</span>
-        <h1>
-          PrimeSchool
-        </h1>
-        <p>The calm operating system for ambitious schools.</p>
-        <div className="login-art-note">
-          <LockKeyhole size={18} />
-          Secure access for your school community
+        <div className="login-art-glow login-art-glow-one" />
+        <div className="login-art-glow login-art-glow-two" />
+        <div className="login-art-content">
+          <div className="login-brand">
+            <span className="brand-mark">P</span>
+            <span>PrimeSchool</span>
+          </div>
+          <span className="login-eyebrow"><Sparkles size={14} /> SCHOOL OPERATIONS, SIMPLIFIED</span>
+          <h1>Make every school day <span>run better.</span></h1>
+          <p>Clarity for every classroom. Confidence for every decision.</p>
+          <div className="login-art-note">
+            <LockKeyhole size={17} />
+            Secure access for your school community
+          </div>
+          <div className="login-art-footer">
+            <span>Built for better learning outcomes</span>
+            <ArrowUpRight size={16} />
+          </div>
         </div>
       </section>
 
       <form className="login-card" onSubmit={submit}>
-        <span className="section-kicker">WELCOME BACK</span>
+        <div className="login-card-top">
+          <span className="section-kicker">WELCOME BACK</span>
+          <span className="login-card-mark">P</span>
+        </div>
         <h2>Sign in to PrimeSchool</h2>
-        <p>Use your school account to continue.</p>
+        <p className="login-card-intro">Your school day starts here.</p>
 
         {error && <p className="ui-notice ui-notice-error">{error}</p>}
 
         <label>
-          Username or email
+          <span className="login-field-title">Username or email</span>
           <input
             type="text"
             autoComplete="username"
-            placeholder="you@primeschool.mw"
+            placeholder="Enter your username"
             value={username}
             onChange={(event) => setUsername(event.target.value)}
             required
           />
         </label>
         <label>
-          Password
+          <span className="login-field-title">Password</span>
           <span className="ui-password">
             <input
               type={reveal ? "text" : "password"}

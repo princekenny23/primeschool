@@ -5,9 +5,12 @@ export default function RegisterPage() {
   return (
     <main className="login-screen">
       <section className="login-art">
-        <span className="brand-mark">P</span>
-        <h1>PrimeSchool</h1>
-        <p>The calm operating system for ambitious schools.</p>
+        <div className="login-brand">
+          <span className="brand-mark">P</span>
+          <span>PrimeSchool</span>
+        </div>
+        <h1>Make every school day <span>run better.</span></h1>
+        <p>Clarity for every classroom. Confidence for every decision.</p>
         <div className="login-art-note">
           <LockKeyhole size={18} />
           Secure staff access
