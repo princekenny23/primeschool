@@ -48,6 +48,16 @@ py manage.py runserver
 
 The API runs on `http://127.0.0.1:8000`.
 
+### Render deployment
+
+For a Django web service, set Render's **Root Directory** to `backend`. Use
+`pip install -r requirements.txt` as the build command and
+`python manage.py migrate && gunicorn config.wsgi:application` as the start
+command. If the service remains rooted at the repository root, the root
+`requirements.txt` delegates to `backend/requirements.txt`, but the start
+command must run from the backend directory:
+`cd backend && python manage.py migrate && gunicorn config.wsgi:application`.
+
 ### Frontend
 
 ```powershell
@@ -93,4 +103,3 @@ py manage.py createsuperuser
 8. Fee structures, invoices, and payments
 9. Dashboard, notifications, and exports
 10. Audit logs, deployment, backups, and production hardening
-
