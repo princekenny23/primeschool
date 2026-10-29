@@ -195,6 +195,40 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class OwnerSignupSerializer(serializers.ModelSerializer):
+    """Public onboarding for a school owner; platform access is not user-selectable."""
+
+    password = serializers.CharField(write_only=True, style={"input_type": "password"})
+
+    class Meta:
+        model = User
+        fields = ["id", "username", "email", "first_name", "last_name", "password"]
+
+    def validate_username(self, value):
+        if User.objects.filter(username__iexact=value).exists():
+            raise serializers.ValidationError("That username is already taken.")
+        return value
+
+    def validate_password(self, value):
+        try:
+            validate_password(value)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError(list(error.messages))
+        return value
+
+    def create(self, validated_data):
+        password = validated_data.pop("password")
+        user = User(**validated_data, is_active=True, is_staff=True, is_superuser=True)
+        user.set_password(password)
+        user.save()
+        profile, _ = UserProfile.objects.update_or_create(
+            user=user,
+            defaults={"role": "saasadmin", "school": None},
+        )
+        user.profile = profile
+        return user
+
+
 class MeSerializer(serializers.ModelSerializer):
     role = serializers.SerializerMethodField()
     school = serializers.SerializerMethodField()

@@ -113,6 +113,42 @@ class SchoolApiTests(TestCase):
 
 
 class SaaSBootstrapTests(TestCase):
+    def test_owner_signup_creates_active_saas_admin(self):
+        response = self.client.post(
+            "/api/auth/owner-signup/",
+            {
+                "username": "school_owner",
+                "email": "owner@example.com",
+                "first_name": "School",
+                "last_name": "Owner",
+                "password": "StrongPass123!",
+            },
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        user = User.objects.get(username="school_owner")
+        self.assertTrue(user.is_active)
+        self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_superuser)
+        self.assertEqual(user.profile.role, "saasadmin")
+        self.assertIsNone(user.profile.school)
+
+    def test_owner_signup_does_not_accept_a_role(self):
+        response = self.client.post(
+            "/api/auth/owner-signup/",
+            {
+                "username": "school_owner",
+                "email": "owner@example.com",
+                "password": "StrongPass123!",
+                "role": "admin",
+            },
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(User.objects.get(username="school_owner").profile.role, "saasadmin")
+
     def test_staff_registration_requires_admin_workflow_and_is_inactive(self):
         serializer = RegisterSerializer(
             data={

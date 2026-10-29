@@ -135,3 +135,20 @@ export async function login(username: string, password: string) {
   tokens.save(payload.access, payload.refresh);
   return payload.user;
 }
+
+export async function signupOwner(data: {
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  password: string;
+}) {
+  const response = await fetch("/api/auth/owner-signup/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) throw new ApiError(response.status, payload);
+  return payload.user;
+}

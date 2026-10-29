@@ -96,6 +96,32 @@ cd backend
 py manage.py createsuperuser
 ```
 
+If the Render service does not provide Shell access, provision a SaaS admin
+during deployment. Add these temporary environment variables to the backend:
+
+```env
+PROVISION_SAAS_ADMIN=true
+SAAS_ADMIN_USERNAME=your-admin-username
+SAAS_ADMIN_EMAIL=your-admin@example.com
+SAAS_ADMIN_PASSWORD=use-a-strong-password
+```
+
+Set the Render start command to:
+
+```text
+python manage.py migrate && python manage.py provision_saas_admin && gunicorn config.wsgi:application
+```
+
+If the service root is the repository root, use:
+
+```text
+cd backend && python manage.py migrate && python manage.py provision_saas_admin && gunicorn config.wsgi:application
+```
+
+After the deployment succeeds, remove the three `SAAS_ADMIN_*` variables and
+set `PROVISION_SAAS_ADMIN=false`, then redeploy. The command is idempotent and
+does not print or store the password.
+
 ## MVP phases
 
 1. Authentication and role permissions

@@ -1095,6 +1095,18 @@ class RegisterView(APIView):
         )
 
 
+class OwnerSignupView(APIView):
+    permission_classes = [AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "register"
+
+    def post(self, request):
+        serializer = OwnerSignupSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({"user": MeSerializer(user).data}, status=status.HTTP_201_CREATED)
+
+
 class DashboardSummaryView(APIView):
     permission_classes = [IsAuthenticated]
 

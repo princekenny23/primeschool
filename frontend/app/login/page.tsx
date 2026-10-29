@@ -107,6 +107,9 @@ export default function LoginPage() {
         <button className="login-button" type="submit" disabled={busy}>
           {busy ? "Signing in…" : "Sign in"} <span>→</span>
         </button>
+        <small>
+          New school owner? <Link href="/register">Create an account</Link>
+        </small>
         <small>Staff accounts are issued by your school administrator.</small>
       </form>
     </main>

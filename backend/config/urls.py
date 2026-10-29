@@ -3,7 +3,7 @@ from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 from school.views import (
-    DashboardSummaryView, InstitutionSetupView, MeView, RegisterView, ReportView, RoleTokenObtainPairView, api_root, router_viewsets,
+    DashboardSummaryView, InstitutionSetupView, MeView, OwnerSignupView, RegisterView, ReportView, RoleTokenObtainPairView, api_root, router_viewsets,
 )
 
 
@@ -27,6 +27,7 @@ urlpatterns = [
     re_path(r"^api/auth/token/refresh/?$", TokenRefreshView.as_view(), name="token_refresh"),
     re_path(r"^api/auth/me/?$", MeView.as_view(), name="me"),
     re_path(r"^api/auth/register/?$", RegisterView.as_view(), name="register"),
+    re_path(r"^api/auth/owner-signup/?$", OwnerSignupView.as_view(), name="owner_signup"),
     re_path(r"^api/dashboard/summary/?$", DashboardSummaryView.as_view(), name="dashboard_summary"),
     re_path(r"^api/reports/?$", ReportView.as_view(), name="reports"),
     re_path(r"^api/setup/institution/?$", InstitutionSetupView.as_view(), name="institution_setup"),
